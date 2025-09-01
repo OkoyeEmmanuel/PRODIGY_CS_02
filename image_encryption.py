@@ -8,17 +8,23 @@ root.withdraw()
 def encrypt_image(key):
     global filename
     global image
-    filename = filedialog.askopenfilename(initialdir="/", title="Select an image to encrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"), ("all files","*.*")))
-    fin =  open(filename, 'rb') # open the file in binary mode, rb = read binary
+    filename = filedialog.askopenfilename(initialdir="/", title="Select an image to encrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
+    file_binary =  open(filename, 'rb') # open the file in binary mode, rb = read binary
 
-    image = fin.read() 
+    image = file_binary.read() 
 
-    fin.close()
-    print(image)
-  
+    file_binary.close()
+    image = bytearray(image) 
 
     root.destroy()
-   
+    for index, values in enumerate(image):
+        image[index] = values ^ key
+    
+
+    file_binary = open(filename, 'wb') 
+    file_binary.write(image)
+    file_binary.close()
+    print("Encryption done...")
      
    
 

@@ -33,9 +33,24 @@ def encrypt_image(key):
 
 def decrypt_image(key):
     global filename
-    filename = filedialog.askopenfilename(initialdir="/", title="Select an image to decrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"), ("all files","*.*")))
-    print(filename)
+    filename = filedialog.askopenfilename(initialdir="/", title="Select an image to decrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
+
+    file_binary =  open(filename, 'rb')
+    image = file_binary.read() 
+    file_binary.close()
+
+    image = bytearray(image) 
+
     root.destroy()
+    for index, values in enumerate(image):
+            image[index] = values ^ key
+      
+    file_binary = open(filename, 'wb')
+    file_binary.write(image)
+    file_binary.close()
+    print("Decryption done...")
+
+
 
 bExit = False
 
@@ -56,7 +71,7 @@ while not bExit:
         encryption_key = int(input("Enter encryption key: "))
         encrypt_image(encryption_key)
     elif choice == 2:
-        decryption_key = int(input("Enter encryption key: "))
+        decryption_key = int(input("Enter decryption key: "))
         decrypt_image(decryption_key)
     elif choice == 3:
         bExit = True

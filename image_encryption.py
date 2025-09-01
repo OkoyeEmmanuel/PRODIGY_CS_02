@@ -3,14 +3,26 @@ from tkinter import *
 from tkinter import filedialog
 
 root = Tk()
-root.title("Image Encryption/Decryption")
-root.geometry("400x200")
+root.withdraw()  
 
 def encrypt_image(key):
     global filename
+    global image
     filename = filedialog.askopenfilename(initialdir="/", title="Select an image to encrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"), ("all files","*.*")))
-    print(filename)
-root.destroy()
+    fin =  open(filename, 'rb') # open the file in binary mode, rb = read binary
+
+    image = fin.read() 
+
+    fin.close()
+    print(image)
+  
+
+    root.destroy()
+   
+     
+   
+
+
     
 
 def decrypt_image(key):

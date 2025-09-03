@@ -52,7 +52,33 @@ def encrypt_image(key):
 def decrypt_image(key):
     global filename
     filename = filedialog.askopenfilename(initialdir="/", title="Select an image to decrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
+    image = Image.open(filename).convert("RGB")
+    pixels = image.load()
+    width, height = image.size
+    for i in range(width):
+        for j in range(height):
+            r, g, b = pixels[i, j]
+            pixels[i, j] = (
+                (r - key) % 256,
+                (g - key) % 256,
+                (b - key) % 256
+            )
+        
+    print(" ")
+    print("Decryption complete...")
+    print(" ") 
 
+    if filename.endswith(".png"):
+        new_filename = filename.replace(".png", "_Decrypted.png")
+    elif filename.endswith(".jpg"):
+        new_filename = filename.replace(".jpg", "_Decrypted.jpg")
+    elif filename.endswith(".jpeg"):
+        new_filename = filename.replace(".jpeg", "_Decrypted.jpeg")
+    else:
+        new_filename = filename + "_Decrypted"
+
+    print("Saving Decrypted image to:" +  new_filename)        
+    image.save(new_filename)
     
 
 

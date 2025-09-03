@@ -11,19 +11,24 @@ def encrypt_image(key):
     global filename
     global image
     filename = filedialog.askopenfilename(initialdir="/", title="Select an image to encrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
-    image = Image.open(filename)
+    image = Image.open(filename).convert("RGB")
     pixels = image.load()
     width, height = image.size
     for i in range(width):
         for j in range(height):
             r, g, b = pixels[i, j]
-
-            r = (r + key) % 256
-            g = (g + key) % 256
-            b = (b + key) % 256
-
-            pixels[i, j] = (r, g, b)
+            pixels[i, j] = (
+                (r + key) % 256,
+                (g + key) % 256,
+                (b + key) % 256
+            )
+        
     image.save("encrypted_image.png")
+
+    print(" ")
+    print("Encryption complete...")
+    print(" ")
+
    
      
    

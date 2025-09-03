@@ -23,11 +23,24 @@ def encrypt_image(key):
                 (b + key) % 256
             )
         
-    image.save("encrypted_image.png")
-
     print(" ")
     print("Encryption complete...")
-    print(" ")
+    print(" ") 
+
+    if filename.endswith(".png"):
+        new_filename = filename.replace(".png", "_encrypted.png")
+    elif filename.endswith(".jpg"):
+        new_filename = filename.replace(".jpg", "_encrypted.jpg")
+    elif filename.endswith(".jpeg"):
+        new_filename = filename.replace(".jpeg", "_encrypted.jpeg")
+    else:
+        new_filename = filename + "_encrypted"
+
+    print("Saving encrypted image to:" +  new_filename)        
+    image.save(new_filename)
+
+    
+    
 
    
      

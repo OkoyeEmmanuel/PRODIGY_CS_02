@@ -8,23 +8,7 @@ root.withdraw()
 def encrypt_image(key):
     global filename
     global image
-    filename = filedialog.askopenfilename(initialdir="/", title="Select an image to encrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
-    file_binary =  open(filename, 'rb') # open the file in binary mode, rb = read binary
-
-    image = file_binary.read() 
-
-    file_binary.close()
-    image = bytearray(image) 
-
-    root.destroy()
-    for index, values in enumerate(image):
-        image[index] = values ^ key
-    
-
-    file_binary = open(filename, 'wb') 
-    file_binary.write(image)
-    file_binary.close()
-    print("Encryption done...")
+   
      
    
 
@@ -34,21 +18,23 @@ def encrypt_image(key):
 def decrypt_image(key):
     global filename
     filename = filedialog.askopenfilename(initialdir="/", title="Select an image to decrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
+    image = Image.open(filename)
+    pixels = image.load()
 
-    file_binary =  open(filename, 'rb')
-    image = file_binary.read() 
-    file_binary.close()
+    width, height = image.size
 
-    image = bytearray(image) 
+    for i in range(width):
+        for j in range(height):
+            r, g, b = pixels[i, j]
 
-    root.destroy()
-    for index, values in enumerate(image):
-            image[index] = values ^ key
-      
-    file_binary = open(filename, 'wb')
-    file_binary.write(image)
-    file_binary.close()
-    print("Decryption done...")
+            r = (r - key) % 256
+            g = (g - key) % 256
+            b = (b - key) % 256
+
+            pixels[i, j] = (r, g, b)
+
+    image.save("decrypted_image.png")
+    
 
 
 

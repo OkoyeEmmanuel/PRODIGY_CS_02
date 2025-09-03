@@ -1,6 +1,8 @@
 from logging import root
 from tkinter import *
 from tkinter import filedialog
+from PIL import Image
+
 
 root = Tk()
 root.withdraw()  
@@ -8,6 +10,8 @@ root.withdraw()
 def encrypt_image(key):
     global filename
     global image
+
+
    
      
    

@@ -10,8 +10,20 @@ root.withdraw()
 def encrypt_image(key):
     global filename
     global image
+    filename = filedialog.askopenfilename(initialdir="/", title="Select an image to encrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
+    image = Image.open(filename)
+    pixels = image.load()
+    width, height = image.size
+    for i in range(width):
+        for j in range(height):
+            r, g, b = pixels[i, j]
 
+            r = (r + key) % 256
+            g = (g + key) % 256
+            b = (b + key) % 256
 
+            pixels[i, j] = (r, g, b)
+    image.save("encrypted_image.png")
    
      
    
@@ -22,22 +34,7 @@ def encrypt_image(key):
 def decrypt_image(key):
     global filename
     filename = filedialog.askopenfilename(initialdir="/", title="Select an image to decrypt", filetypes=(("png files","*.png"), ("jpeg files","*.jpeg"),("jpg files","*.jpg"), ("all files","*.*")))
-    image = Image.open(filename)
-    pixels = image.load()
 
-    width, height = image.size
-
-    for i in range(width):
-        for j in range(height):
-            r, g, b = pixels[i, j]
-
-            r = (r - key) % 256
-            g = (g - key) % 256
-            b = (b - key) % 256
-
-            pixels[i, j] = (r, g, b)
-
-    image.save("decrypted_image.png")
     
 
 
